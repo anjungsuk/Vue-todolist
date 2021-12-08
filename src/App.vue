@@ -1,53 +1,49 @@
 <template>
   <div id="app" class="container">
     <h1 class="text-center">Todo App</h1>
-    <input v-model="todoText" class="w-100 p-2" placeholder="Type todo" @keyup.enter="addTodo"/>
-    <todo v-for="todo in todos" :key="todo.id" :todo="todo" @click-delete = "deleteTodo" @toggle-checkbox="toggleCheckbox"></todo>
+    <AddTodo/>
+    <hr>
+    <TodoList/>
+    <CompletedTodo/>
+    <VueApexCharts width="700" type="bar" :options="options" :series="series"></VueApexCharts>
+    <UserList/>
   </div>
 </template>
 
 <script>
-  import todo from '@/components/Todo';
+  
+import TodoList from '@/components/TodoList';
+import AddTodo from '@/components/AddTodo';
+import CompletedTodo from '@/components/CompletedTodo';
+import VueApexCharts from 'vue-apexcharts' ;
+import UserList from '@/components/UserList';
 
 export default {
-
+  
   components :{
-    todo,
+    TodoList,
+    AddTodo,
+    CompletedTodo,
+    VueApexCharts,
+    UserList
   },
   data(){
     return{
-      todoText : '',
-      todos : [
-        {id : 1, text : 'buy a car', checked : false},
-        {id : 2, text : 'play game', checked : false},
-      ]
+      options: {
+        chart: {
+          id: 'vuechart-example'
+        },
+        xaxis: {
+          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+        }
+      },
+      series: [{
+        name: 'series-1',
+        data: [30, 40, 45, 50, 49, 60, 70, 91]
+      }]
     }
   },
-  methods: {
-    addTodo(e){
-      this.todos.push({
-        id : Math.random(),
-        text : e.target.value,
-        checked : false
-      })
-      this.todoText = "";
-    },
-    deleteTodo(id){
-      const index = this.todos.findIndex(todo =>{
-        return todo.id === id;
-      });
-
-      this.todos.splice(index, 1);
-    },
-    toggleCheckbox({id, checked})
-    {
-      const index = this.todos.findIndex(todo => {
-        return todo.id === id;
-      })
-
-      this.todos[index].checked = checked;
-    }
-  },
+  
 }
 </script>
 

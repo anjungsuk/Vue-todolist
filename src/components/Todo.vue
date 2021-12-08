@@ -28,13 +28,20 @@ export default {
     },
     methods: {
         toggleCheckbox(e) {
-            this.$emit('toggle-checkbox', {
-                id: this.todo.id,
-                checked: e.target.checked
-            })
+            //mutation 사용 방법
+            //this.$store.commit('toggle_todo',{id : this.todo.id, checked : e.target.checked});
+            
+            //action 사용 방법
+            this.$store.dispatch('toggleTodo', {id : this.todo.id, checked : e.target.checked});
+            
         },
         clickDelete() {
-            this.$emit('click-delete', this.todo.id);
+            //mutation 사용 방법
+            //this.$store.commit('delete_todo', this.todo.id);
+
+            //action 사용 방법
+            this.$store.dispatch('deleteTodo', this.todo.id);
+            
         }
     }
 }
